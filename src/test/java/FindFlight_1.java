@@ -13,22 +13,22 @@ import java.io.IOException;
 public class FindFlight_1 extends BaseTestCase {
 
     /**
-     * Run pages before java
+     * Run pages for testing
      * <p>
-     * Running all pages we need before start these java:
+     * Running all pages we need for these testing:
      * - homePage
      * - bookFlightPage
      * </p>
      */
     protected void initPages() {
-        homePage = PageFactory.initElements(BaseTestCase.driver, HomePage.class);
-        bookFlightPage = PageFactory.initElements(BaseTestCase.driver, BookFlightPage.class);
+        homePage = PageFactory.initElements(driver, HomePage.class);
+        bookFlightPage = PageFactory.initElements(driver, BookFlightPage.class);
     }
 
     /**
-     * Setup before java
+     * Setup before testing
      * <p>
-     * Running all methods we need before start these java:
+     * Running all methods we need before start these testing:
      * - getResources1
      * - setupChromeDriver
      * - initPages
@@ -40,14 +40,14 @@ public class FindFlight_1 extends BaseTestCase {
     void before() throws InterruptedException, IOException {
         getResources1("src/resources/config.properties");
         setupChromeDriver();
-        Thread.sleep(40000);
+        Thread.sleep(40000); // This is for input captcha
         initPages();
     }
 
     /**
      * Find flight
      * <p>
-     * The main java method:
+     * The main testing method:
      * - transfers departure and arrival data
      * - check that the system finds and offers flight options
      * </p>
@@ -61,17 +61,17 @@ public class FindFlight_1 extends BaseTestCase {
         log.info("Execution of Main java is carring on");
         test = BaseTestCase.extent.startTest("findFlight_1", "Find flight from departure station to arrival station which are specified in the test data");
         test.log(LogStatus.INFO, "Find flight from... to... was started");
-        Flight flight = Flight.getFlight("src/resources/flight#1.properties");
-        homePage.findFlight(flight);
+        Flight criteriaFlight = Flight.getFlight("src/resources/flight#1.properties");
+        homePage.findFlight(criteriaFlight);
 
         boolean flightOk = bookFlightPage.checkFlight();
         try {
             Assert.assertTrue(flightOk, "Test data for flight is not correct");
         } catch (AssertionError t) {
-            test.log(LogStatus.FAIL, "System does not can find and offer flight options");
+            test.log(LogStatus.FAIL, "System does not can find and offer any flight options");
             throw new AssertionError(t);
         }
-        test.log(LogStatus.PASS, "System finds and offers flight options");
+        test.log(LogStatus.PASS, "System finds and offers some flight options");
         log.info("Test data for flight is correct");
 
         extent.endTest(test);

@@ -14,7 +14,7 @@ public class HomePage extends BasePages {
     @FindBy(xpath = "//span[@class = 'datepicker-trigger icon-font icon-calendar']")
     private WebElement departOnDate;
 
-    @FindBy(id = "dateSelection_IsReturnFlight")
+    @FindBy(xpath = "//span[text()='Return on']")
     private WebElement returnOnFlag;
 
     @FindBy(id = "booking-passengers-input")
@@ -59,12 +59,13 @@ public class HomePage extends BasePages {
         arrivalStation.click();
 
         departOnDate.click();
-        selectDate(flight.getDepartOnMonth(), flight.getDepartOnYear(), flight.getDepartOnDay());
+        selectDate(1, flight.getDepartOnMonth(), flight.getDepartOnYear(), flight.getDepartOnDay());
 
-        if (flight.getFlagReturnOn() == true) {
-            setCheckbox(returnOnFlag, flight.getFlagReturnOn());
-            selectDate(flight.getReturnOnMonth(), flight.getReturnOnYear(), flight.getReturnOnDay());
-            //here need some change because on the page we have two the same active calendars
+        if (flight.getFlagReturnOn()) {
+            selectDate(0, flight.getReturnOnMonth(), flight.getReturnOnYear(), flight.getReturnOnDay());
+        } else {
+            returnOnFlag.click();
+            Thread.sleep(2000);
         }
 
         if (Integer.parseInt(flight.getAdults()) > 1 || Integer.parseInt(flight.getChildren()) > 0 || Integer.parseInt(flight.getBabies()) > 0) {

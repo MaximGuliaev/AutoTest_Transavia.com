@@ -2,6 +2,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.*;
 
+import java.util.List;
+
 public abstract class BasePages {
 
     protected WebDriver driver;
@@ -43,47 +45,36 @@ public abstract class BasePages {
     }
 
     /**
-     * Set checkbox
-     * <p>
-     * Set the received boolean in the received checkbox element
-     * </p>
-     *
-     * @param checkbox
-     * @param checked
-     */
-    public void setCheckbox(WebElement checkbox, Boolean checked) {
-        if (!checkbox.isSelected() & checked || checkbox.isSelected() & !checked) {
-            checkbox.click();
-        }
-    }
-
-    /**
      * Select date
      * <p>
-     * Select the received string month, year and day in the dropdown calendar
+     * Select the received month, year and day in the dropdown calendar
      * </p>
      *
+     * @param calendarNumber
      * @param month
      * @param year
      * @param day
      * @throws InterruptedException
      */
-    public void selectDate(String month, String year, String day) throws InterruptedException {
-        Thread.sleep(5000);
-        try {
-            WebElement departMonth = driver.findElement(By.xpath("//span[@class='ui-datepicker-month'][text()='" + month + "']"));
-            WebElement departYear = driver.findElement(By.xpath("//span[@class='ui-datepicker-year'][text()='" + year + "']"));
-            departMonth.isDisplayed();
-            departYear.isDisplayed();
-            return;
-        } catch (NoSuchElementException e) {
-            WebElement departYear = driver.findElement(By.xpath("//span[@class='ui-datepicker-year'][text()='" + year + "']"));
-            departYear.click();
-            WebElement nexMonthButton = driver.findElement(By.xpath("//span[@class='ui-datepicker-year'][text()='" + year + "']/../preceding-sibling::a[1]"));
-            nexMonthButton.click();
-            Thread.sleep(1000);
+    public void selectDate(int calendarNumber, String month, String year, String day) throws InterruptedException {
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 60000) {
+            try {
+                WebElement flightMonth = driver.findElement(By.xpath("//span[@class='ui-datepicker-month'][text()='" + month + "']"));
+                WebElement flightYear = driver.findElement(By.xpath("//span[@class='ui-datepicker-year'][text()='" + year + "']"));
+                flightMonth.isDisplayed();
+                flightYear.isDisplayed();
+                break;
+            } catch (NoSuchElementException e) {
+                List<WebElement> nexMonthButtons = driver.findElements(By.xpath("//span[@class='ui-datepicker-year']/../preceding-sibling::a[1]"));
+                nexMonthButtons.get(calendarNumber).click();
+                Thread.sleep(1000);
+            }
         }
-        WebElement dateButton = driver.findElement(By.xpath("//a[text()='" + day + "'][@class='ui-state-default ']"));
-        dateButton.click();
+        Thread.sleep(3000);
+        List<WebElement> dateButtons = driver.findElements(By.xpath("//a[text()='" + day + "'][@class='ui-state-default ']"));
+        dateButtons.get(calendarNumber).click();
+        Thread.sleep(1000);
+
     }
 }

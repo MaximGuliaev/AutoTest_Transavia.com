@@ -7,32 +7,34 @@ import static java.lang.Boolean.parseBoolean;
 public class Flight extends Records {
     private String flightFrom;
     private String flightTo;
-    private String departOnYear;
     private String departOnMonth;
+    private String departOnYear;
     private String departOnDay;
     private Boolean flagReturnOn;
-    private String returnOnYear;
     private String returnOnMonth;
+    private String returnOnYear;
     private String returnOnDay;
     private String adults;
     private String children;
     private String babies;
+    private String optionPackage;
 
 
     public Flight(String flightFrom, String flightTo, String departOnMonth, String departOnYear, String departOnDay,
-                  Boolean flagReturnOn, String returnOnMonth, String returnOnYear, String returnOnDay, String adults, String children, String babies) {
+                  Boolean flagReturnOn, String returnOnMonth, String returnOnYear, String returnOnDay, String adults, String children, String babies, String optionPackage) {
         setFlightFrom(flightFrom);
         setFlightTo(flightTo);
         setDepartOnMonth(departOnMonth);
         setDepartOnYear(departOnYear);
         setDepartOnDay(departOnDay);
         setFlagReturnOn(flagReturnOn);
-        setDepartOnMonth(returnOnMonth);
-        setDepartOnYear(returnOnYear);
-        setDepartOnDay(returnOnDay);
+        setReturnOnMonth(returnOnMonth);
+        setReturnOnYear(returnOnYear);
+        setReturnOnDay(returnOnDay);
         setAdults(adults);
         setChildren(children);
         setBabies(babies);
+        setOptionPackage(optionPackage);
     }
 
     /**
@@ -48,19 +50,15 @@ public class Flight extends Records {
     public static Flight getFlight(String pathFile) throws IOException {
         readResources(pathFile);
 
-        Flight businessAccount = new Flight(resources.getProperty("findFlight.flightFrom"),
-                resources.getProperty("findFlight.flightTo"),
-                resources.getProperty("findFlight.departOnMonth"),
-                resources.getProperty("findFlight.departOnYear"),
-                resources.getProperty("findFlight.departOnDay"),
+        Flight criteriaFlight = new Flight(resources.getProperty("findFlight.flightFrom"),
+                resources.getProperty("findFlight.flightTo"), resources.getProperty("findFlight.departOnMonth"),
+                resources.getProperty("findFlight.departOnYear"), resources.getProperty("findFlight.departOnDay"),
                 parseBoolean(resources.getProperty("findFlight.flagReturnOn")),
-                resources.getProperty("findFlight.returnOnMonth"),
-                resources.getProperty("findFlight.returnOnYear"),
-                resources.getProperty("findFlight.returnOnDay"),
-                resources.getProperty("findFlight.adults"),
-                resources.getProperty("findFlight.children"),
-                resources.getProperty("findFlight.babies"));
-        return businessAccount;
+                resources.getProperty("findFlight.returnOnMonth"), resources.getProperty("findFlight.returnOnYear"),
+                resources.getProperty("findFlight.returnOnDay"), resources.getProperty("findFlight.adults"),
+                resources.getProperty("findFlight.children"), resources.getProperty("findFlight.babies"),
+                resources.getProperty("findFlight.optionPackage"));
+        return criteriaFlight;
     }
 
     public String getFlightFrom() {
@@ -157,5 +155,13 @@ public class Flight extends Records {
 
     public void setBabies(String babies) {
         this.babies = babies;
+    }
+
+    public String getOptionPackage() {
+        return optionPackage;
+    }
+
+    public void setOptionPackage(String optionPackage) {
+        this.optionPackage = optionPackage;
     }
 }

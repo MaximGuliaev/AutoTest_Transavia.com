@@ -47,6 +47,7 @@ public abstract class BaseTestCase {
     // Pages
     HomePage homePage;
     BookFlightPage bookFlightPage;
+    GetMorePage getMorePage;
 
     abstract void initPages();
 
@@ -81,14 +82,11 @@ public abstract class BaseTestCase {
     }
 
     /**
-     * Setup before java
+     * Setup before testing
      * <p>
-     * Running all methods we need before start the java:
-     * - getResources
-     * - propertyConfigurator
-     * - setupChromeDriver
-     * - initPages
-     * - generateTestData
+     * Running properties for report before start the testing process:
+     * - Log properties
+     * - ExtentReport
      * </p>
      *
      * @throws InterruptedException
@@ -96,8 +94,7 @@ public abstract class BaseTestCase {
      */
     @BeforeTest
     public void setUp() throws InterruptedException, IOException {
-        log.info("Execution of \"Before java\" is starting");
-//        System.setProperty("log.properties", new File("properties", "log.properties").toURL());
+        log.info("Execution of \"Before testing\" is starting");
         PropertyConfigurator.configure("properties/log.properties");
 
         extent = new ExtentReports("reports//ExtentReport." + createTimeStamp("dd.MM.yyyy") + ".html",
@@ -106,16 +103,16 @@ public abstract class BaseTestCase {
     }
 
     /**
-     * Setup after java
+     * Setup after testing
      * <p>
-     * Stop and close all things we must after the java:
+     * Stop and close all things we must after the testing:
      * - WebDriver
-     * - ExtentReports
+     * - ExtentReport
      * </p>
      */
     @AfterTest
     public void tearDown() {
-        log.info("Execution of \"After java\" is starting");
+        log.info("Execution of \"After testing\" is starting");
         if (driver != null) {
             log.info("Closing chrome browser");
             driver.quit();
