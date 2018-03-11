@@ -1,6 +1,8 @@
 # AutoTest_Transavia.com
-Test task on autotesting on the Transavia.com web.
+This is test task on autotesting for Transavia.com web.
 
 •	Using features: @FindBy, XPath, Log4J, ExtentReport, Page Object;
 
-•	Tools: Selenium WebDriver, TestNG, developer console F12;
+•	Using tools: Selenium WebDriver, TestNG, developer console F12;
+
+Since on website was added CAPTCHA, at the beginning of the test, there is time for manual input this CAPTCHA.
